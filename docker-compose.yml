@@ -1,11 +1,22 @@
-version: "3.7"
+version: '3.4'
+
 services:
-    db:
-        build: ./
-        container_name: mssql-server-container
-        environment:
-            ACCEPT_EULA: Y
-            SA_PASSWORD: MoneyAdmin@123
-            MSSQL_PID: Express
-        ports:
-            - "1433:1433"
+  moneyadmin.webapi:
+    image: ${DOCKER_REGISTRY-}moneyadminwebapi
+    build:
+      context: .
+      dockerfile: src/MoneyAdmin.WebApi/Dockerfile
+    depends_on:
+      - db
+  
+  db:
+    container_name: mssql-server-container
+    build:
+      context: .
+      dockerfile: Dockerfile_mssql
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: MoneyAdmin@123
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
