@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: src/MoneyAdmin.WebApi/Dockerfile
-    networks:
-      - network-mssql
     depends_on:
       - db
   
@@ -22,9 +20,3 @@ services:
       MSSQL_PID: Express
     ports:
       - "1433:1433"
-    networks:
-      - network-mssql
-
-networks:
-  network-mssql:
-    driver: bridge
