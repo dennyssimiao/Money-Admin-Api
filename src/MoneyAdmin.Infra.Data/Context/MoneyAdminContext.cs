@@ -1,16 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MoneyAdmin.Domain;
 
 namespace MoneyAdmin.Infra.Data
 {
     public class MoneyAdminContext : DbContext
     {
-        public MoneyAdminContext()
+        private readonly IConfiguration _configuration;
+
+        public MoneyAdminContext(IConfiguration configuration)
         {
+            _configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlServer(@"Server=db; Database=Master; User Id=SA; Password=MoneyAdmin@123");
+        => options.UseSqlServer(_configuration.GetConnectionString("MoneyAdminMssql"));
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
